@@ -16,4 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the in Docker
-      run: ./build_in_docker.sh
+      run: |
+        chmod +x ./build_in_docker.sh
+        chmod +x ./source/pkg_build.sh
+        ./build_in_docker.sh
