@@ -16,4 +16,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the in Docker
-      run: build_in_docker.sh
+      run: ./build_in_docker.sh
