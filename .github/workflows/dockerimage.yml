@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: kata.runtime
-        path: /mnt/output/kata.runtime-*
+        path: /mnt/output/kata.runtime-[.*]
 
 #     - name: Create Release
 #       id: create_release
