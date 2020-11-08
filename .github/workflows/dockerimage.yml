@@ -5,6 +5,7 @@ on:
     tags: [ '*' ]
   pull_request:
     tags: [ '*' ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,12 +14,15 @@ jobs:
       run:
         shell: bash
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+      
     - name: Build the in Docker
       run: |
         chmod +x ./build_in_docker.sh
         chmod +x ./source/pkg_build.sh
         ./build_in_docker.sh
+        
     - name: Create Release
       id: create_release
       uses: actions/create-release@v2
@@ -27,8 +31,9 @@ jobs:
       with:
         tag_name:  ${{ github.ref }}
         release_name: Release ${{ github.ref }}
-        draft: false
+        draft: true
         prerelease: false
+    
     - name: Upload Release Asset
       id: upload-release-asset 
       uses: actions/upload-release-asset@v2
