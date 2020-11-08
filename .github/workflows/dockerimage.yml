@@ -30,7 +30,13 @@ jobs:
         chmod +x ./build_in_docker.sh
         chmod +x ./source/pkg_build.sh
         ./build_in_docker.sh
-        
+   
+    - name: Upload Artifact 
+      uses: actions/upload-artifact@v2
+      with:
+        name: kata.runtime
+        path: /mnt/output/kata.runtime-*
+
 #     - name: Create Release
 #       id: create_release
 #       uses: actions/create-release@v2
