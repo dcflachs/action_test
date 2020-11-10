@@ -25,7 +25,7 @@ jobs:
     - name: Set ENV Variables
       if: github.event.inputs.kata_version
       run: |
-          echo "KATA_VERSION= ${{github.event.inputs.kata_version}}" >> $GITHUB_ENV
+          echo "KATA_VERSION=${{github.event.inputs.kata_version}}" >> $GITHUB_ENV
       
     - name: Build the in Docker
       run: |
