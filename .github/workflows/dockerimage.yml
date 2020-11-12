@@ -31,11 +31,12 @@ jobs:
       run: |
         chmod +x ./build_in_docker.sh
         chmod +x ./source/pkg_build.sh
-        ./build_in_docker.sh
+        ./build_in_docker.sh | tee /dev/tty | grep /mnt/output/kata.runtime- | awk '{ print $1 }'
    
     - name: Upload Artifact 
       uses: actions/upload-artifact@v2
       with:
+        name: kata.runtime-${{github.event.inputs.kata_version}}-x86_64.txz
         path: ./archive/kata.runtime-*
 
 #     - name: Create Release
