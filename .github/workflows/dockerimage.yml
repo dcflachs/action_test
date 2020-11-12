@@ -31,7 +31,7 @@ jobs:
       run: |
         chmod +x ./build_in_docker.sh
         chmod +x ./source/pkg_build.sh
-        ./build_in_docker.sh | tee /dev/tty | grep /mnt/output/kata.runtime- | awk '{ print $1 }'
+        ./build_in_docker.sh
    
     - name: Upload Artifact 
       uses: actions/upload-artifact@v2
