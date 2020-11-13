@@ -3,8 +3,6 @@ name: KataRuntime Plugin CI
 on:
   push:
     tags: [ '*' ]
-  pull_request:
-    tags: [ '*' ]
   workflow_dispatch:
     inputs:
       kata_version:
@@ -39,16 +37,29 @@ jobs:
         name: kata.runtime-${{github.event.inputs.kata_version}}-x86_64.txz
         path: ./archive/kata.runtime-*
 
-#     - name: Create Release
-#       id: create_release
-#       uses: actions/create-release@v2
-#       env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:
-#         tag_name:  ${{ github.ref }}
-#         release_name: Release ${{ github.ref }}
-#         draft: true
-#         prerelease: false
+    - name: Set Release ENV Variables On Manual
+      if: github.event_name == "workflow_dispatch"
+      run: |
+          echo "DO_RELEASE=${{github.event.inputs.create_release}}" >> $GITHUB_ENV
+          echo "RELEASE_TAG_NAME=${{github.event.inputs.kata_version}}" >> $GITHUB_ENV
+          
+    - name: Set Release ENV Variables On Auto
+      if: github.event_name != "workflow_dispatch"
+      run: |
+          echo "DO_RELEASE=T" >> $GITHUB_ENV
+          echo "RELEASE_TAG_NAME=${{github.event.inputs.kata_version}}" >> $GITHUB_ENV
+
+    - name: Create Manual Release
+      id: create_release
+      uses: actions/create-release@v1
+      if: env.DO_RELEASE == "T"
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name:  ${{env.RELEASE_TAG_NAME}}
+        release_name: ${{env.RELEASE_TAG_NAME}}
+        draft: true
+        prerelease: false
     
 #     - name: Upload Release Asset
 #       id: upload-release-asset 
